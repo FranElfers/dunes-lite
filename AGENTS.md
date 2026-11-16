@@ -26,18 +26,20 @@ Notes for agents working on this theme mod for the Claude desktop/mobile apps.
 - A still `backdrop: { image }` ground does NOT work for this look: the conversation panels are opaque over it, so the dunes don't show. Use a `scene` with glass.
 - The scene SVG must stay under 131,072 characters. Each dot is a zero-length, square-capped stroke (`m dx 0h0`) inside one `<path>` per color, which keeps it ~43K.
 - Day/night switching lives inside the SVG: colors come from CSS classes, overridden in `@media (prefers-color-scheme: dark)`. The `Backdrop` hook gets no mode info, so this media query is the only way to follow the mode.
-- Keep `surface-0`, `surface-1` and the scene's ground the same color in each mode (`#ede3cf` day, `#231d18` night). Measured from screenshots: the title bar is opaque `surface-0`, while the chat area is glass tinted with `surface-1` at 80 % over the scene. If the three differ, the title bar visibly differs from the chat.
+- Keep `surface-0`, `surface-1` and the scene's ground the same color in each mode (`#ede3cf` day, `#231d18` night). The chat area is glass tinted with `surface-1` at 80 % over the scene; keeping all three equal gives a flat, uniform chat area.
+- The title bar is always ~14 % darker than the chat area (measured: title ≈ chat × 0.86 across four palettes). That is a fixed shade the app lays over its header, not a theme token: no theme value removes it. Don't chase it.
 - Keep dune dots light and sparse in the middle and at the bottom (where text and the composer sit), or text over them is hard to read.
 - The `Backdrop` hook only draws when `e.props.scene === 'dunes'`, so it never answers for another plugin's scene.
 - Don't put `$.ui.status(set.reason)` at `session.start`: no app is attached yet, so it shows a stale "no attached desktop or mobile client" line.
 
 ## Testing
 
-- Claude can't control the Claude app's own window, so it can't screenshot the theme there. Ask the user to look, in both modes.
+- Claude can't control the Claude app's own window (computer use refuses it). It can still read colors: capture the screen from PowerShell (`System.Drawing` `Graphics.CopyFromScreen` to a PNG in the scratchpad) and sample pixels with Python/PIL.
+- Test changes without commit/push/restart through a local copy in the session's dev-mods folder (`~/.claude/dev-mods/<session-id>/dunes-lite-dev/`). It hot-reloads when the turn ends. Rename everything that would clash with the installed plugin: `name` in `plugin.json` to `dunes-lite-dev`, the scene to `dunes-dev` (in `LOOK` and in the `Backdrop` guard), and the command to `dunes-dev`. Its theme is set after the installed one, so it wins until the session ends. One edit equals one reload, so it's one experiment per turn.
 - To check the scene alone: extract the SVG from `hooks/scene.ts`, serve it locally, and open it in the built-in browser with color-scheme emulation set to light and then dark.
 - In a brand-new chat, before the first message, the app shows the remembered colors but no scene, and `/dunes` answers "not a command here": no session (so no plugin) is running yet. The scene appears once the session starts. This is app behavior, not a bug in the mod.
 - `/custom-theme` (theme-examples plugin) clears any mod's theme, this one included. Run `/dunes` to bring it back.
-- During development a copy in the session's dev-mods folder hot-reloads on each edit. Editing any file reloads it and re-runs `session.start`. Remove that copy once the plugin is installed, or two copies both register `/dunes`.
+- Never keep a dev copy under the same names as the installed plugin: both would register `/dunes` and draw the `dunes` scene.
 - The `claude` CLI isn't on PATH on this machine, so `claude plugin validate` and `claude plugin test` don't run.
 
 ## Releasing an update
