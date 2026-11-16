@@ -1,0 +1,5 @@
+{
+  "name": "dunes-lite",
+  "owner": { "name": "FranElfers" },
+  "plugins": [{ "name": "dunes-lite", "source": "./" }]
+}
