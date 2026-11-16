@@ -34,6 +34,7 @@ Notes for agents working on this theme mod for the Claude desktop/mobile apps.
 
 - Claude can't control the Claude app's own window, so it can't screenshot the theme there. Ask the user to look, in both modes.
 - To check the scene alone: extract the SVG from `hooks/scene.ts`, serve it locally, and open it in the built-in browser with color-scheme emulation set to light and then dark.
+- In a brand-new chat, before the first message, the app shows the remembered colors but no scene, and `/dunes` answers "not a command here": no session (so no plugin) is running yet. The scene appears once the session starts. This is app behavior, not a bug in the mod.
 - `/custom-theme` (theme-examples plugin) clears any mod's theme, this one included. Run `/dunes` to bring it back.
 - During development a copy in the session's dev-mods folder hot-reloads on each edit. Editing any file reloads it and re-runs `session.start`. Remove that copy once the plugin is installed, or two copies both register `/dunes`.
 - The `claude` CLI isn't on PATH on this machine, so `claude plugin validate` and `claude plugin test` don't run.
