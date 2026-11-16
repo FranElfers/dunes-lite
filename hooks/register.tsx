@@ -4,11 +4,10 @@ import { makeColors } from './make-colors.js'
 import { SCENE } from './scene.js'
 
 // Dithered dunes look as a still SVG scene (made by ../gen-dunes.mjs): no animation, and glass with
-// no blur, so the panels show the dunes without the cost of a blur. Light only, like the original.
-// Applied at session.start (any edit reloads it).
+// no blur, so the panels show the dunes without the cost of a blur. Day and night halves: the app
+// picks one by its light/dark mode, and the scene by prefers-color-scheme. Applied at session.start.
 const { theme, problems } = makeColors({
   label: 'Dunes lite',
-  only: 'light',
   roles: { accent: '#c95a3f', danger: '#a8322b', success: '#5e7a3a', warning: '#a8741a', pro: '#7a5578' },
   light: {
     gray: {
@@ -19,6 +18,19 @@ const { theme, problems } = makeColors({
         'text-primary': '#2b241c',
         'text-secondary': '#5a4c3b',
         'text-muted': '#6b5d4a',
+      },
+    },
+  },
+  dark: {
+    gray: {
+      anchors: {
+        'surface-0': '#1c1713',
+        'surface-1': '#231d18',
+        'surface-2': '#29221c',
+        'surface-3': '#2f2720',
+        'text-primary': '#f2e8d8',
+        'text-secondary': '#d0c3af',
+        'text-muted': '#ad9f8b',
       },
     },
   },
@@ -38,11 +50,8 @@ export const register: Register = on => {
         $.ui.toast(unpainted)
       }
 
-      const set = await $.theme.set(LOOK)
-
-      if (!set.isDrawn) {
-        $.ui.status(set.reason)
-      }
+      // Not drawn yet is normal here (no app attached so far); the look stands for when one attaches.
+      await $.theme.set(LOOK)
     }
 
     return next(e)
@@ -63,7 +72,7 @@ export const register: Register = on => {
   })
 
   on('ui.render', { component: 'Backdrop' }, ($, e, next) => {
-    if (e.surface !== 'desktop' && e.surface !== 'mobile') {
+    if ((e.surface !== 'desktop' && e.surface !== 'mobile') || e.props.scene !== 'dunes') {
       return next(e)
     }
 

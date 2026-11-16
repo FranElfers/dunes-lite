@@ -1,6 +1,6 @@
 # dunes-lite
 
-A light theme for the Claude desktop and mobile apps: dithered sand dunes under a terracotta sun. The scene is still (no animation) and the panels use glass with no blur, so it stays fast.
+A theme for the Claude desktop and mobile apps: dithered sand dunes under a terracotta sun. It has a day and a night version and follows the app's light or dark mode on its own. The scene is still (no animation) and the panels use glass with no blur, so it stays fast.
 
 - `/dunes` turns the theme on, `/dunes off` turns it off. The choice is remembered across sessions.
 - `/custom-theme` replaces it; run `/dunes` to bring it back.
@@ -31,4 +31,4 @@ The scene is generated: edit `gen-dunes.mjs`, then run
 node gen-dunes.mjs dunes.png hooks/scene.ts
 ```
 
-It writes `hooks/scene.ts` (the SVG the theme draws) plus a PNG preview.
+It writes `hooks/scene.ts` (the SVG the theme draws, with both palettes) plus a day and a night PNG preview.
