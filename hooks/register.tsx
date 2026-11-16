@@ -2,6 +2,7 @@ import type { Register, ThemeSetArgs } from 'claude-code'
 
 import { makeColors } from './make-colors.js'
 import { SCENE } from './scene.js'
+import { registerWeekly } from './weekly-limit.js'
 
 // Dithered dunes look as a still SVG scene (made by ../gen-dunes.mjs): no animation, and glass with
 // no blur, so the panels show the dunes without the cost of a blur. Day and night halves: the app
@@ -38,7 +39,9 @@ const { theme, problems } = makeColors({
 
 const LOOK: ThemeSetArgs = { colors: theme, backdrop: { scene: 'dunes', glass: { blur: 0, opacity: 0.8 } } }
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  registerWeekly(on, options)
+
   on('session.start', async ($, e, next) => {
     await $.command.register({ name: 'dunes', description: 'Dunes lite theme: /dunes to turn it on, /dunes off to turn it off' })
 

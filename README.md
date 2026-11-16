@@ -4,6 +4,7 @@ A theme for the Claude desktop and mobile apps: dithered sand dunes under a terr
 
 - `/dunes` turns the theme on, `/dunes off` turns it off. The choice is remembered across sessions.
 - `/custom-theme` replaces it; run `/dunes` to bring it back.
+- Under the prompt: the average % of the weekly limit left per day and the % used in the last 24 h.
 ## Install
 
 At the prompt of a terminal session:
