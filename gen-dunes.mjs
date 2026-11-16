@@ -8,10 +8,10 @@ import { deflateSync } from 'node:zlib'
 const out = process.argv[2]
 const W = 2560, H = 1600, C = 8, DOT = 5
 const GW = W / C, GH = H / C
-// Slots: ground, four dune shades (back to front), sun, sun halo. Dune dots stay close to the ground so text reads.
+// Slots: ground (must equal the theme's surface-0 so the title bar matches), four dune shades (back to front), sun, sun halo. Dune dots stay close to the ground so text reads.
 const PALETTES = {
   day: ['#ede3cf', '#e0d3b8', '#cfbd9c', '#bea98a', '#a99274', '#d9644a', '#e9a48c'],
-  night: ['#231d18', '#352c24', '#43382e', '#56483a', '#6b5a48', '#c4553b', '#7a3d2c'],
+  night: ['#1c1713', '#352c24', '#43382e', '#56483a', '#6b5a48', '#c4553b', '#7a3d2c'],
 }
 const GLOW = { day: '#e47a5c', night: '#c4553b' }
 const [BG, S1, S2, S3, S4, SUN, HALO] = PALETTES.day.keys()

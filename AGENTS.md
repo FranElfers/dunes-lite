@@ -26,6 +26,7 @@ Notes for agents working on this theme mod for the Claude desktop/mobile apps.
 - A still `backdrop: { image }` ground does NOT work for this look: the conversation panels are opaque over it, so the dunes don't show. Use a `scene` with glass.
 - The scene SVG must stay under 131,072 characters. Each dot is a zero-length, square-capped stroke (`m dx 0h0`) inside one `<path>` per color, which keeps it ~43K.
 - Day/night switching lives inside the SVG: colors come from CSS classes, overridden in `@media (prefers-color-scheme: dark)`. The `Backdrop` hook gets no mode info, so this media query is the only way to follow the mode.
+- The scene's ground color must equal the theme's `surface-0` in each mode (`#ede3cf` day, `#1c1713` night). The title bar is a glass panel tinted with `surface-0` over the scene, while the chat area shows the scene bare, so any difference shows as a mismatched title bar.
 - Keep dune dots light and sparse in the middle and at the bottom (where text and the composer sit), or text over them is hard to read.
 - The `Backdrop` hook only draws when `e.props.scene === 'dunes'`, so it never answers for another plugin's scene.
 - Don't put `$.ui.status(set.reason)` at `session.start`: no app is attached yet, so it shows a stale "no attached desktop or mobile client" line.
