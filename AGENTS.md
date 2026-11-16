@@ -8,7 +8,6 @@ Notes for agents working on this theme mod for the Claude desktop/mobile apps.
 - `.claude-plugin/marketplace.json` — makes this repo its own marketplace (`source: "./"`).
 - `hooks/hooks.json` — points at `./register.tsx`.
 - `hooks/register.tsx` — sets the look at `session.start`, registers `/dunes` (`/dunes off`), and draws the scene in a `ui.render` hook on `Backdrop`.
-- `hooks/weekly-limit.ts` — status line under the prompt: % per day, % used in the last 24 h, and (only in the last 24 h before the reset) the % left, labelled "Restante". Reads the `seven_day` window from `$.session.usage()` and `session.measure`; keeps a sample history in `$.store` (`weekly-history`) for the 24 h figure, restarted when the window resets; falls back to next Monday 11:00 local when the window has no `resetsAt`. One status per plugin, so only this module sets it.
 - `hooks/make-colors.js` / `.d.ts` — the design system's color helper, copied as-is. Never edit; recopy from the plugin-authoring skill when the build updates.
 - `hooks/scene.ts` — generated. Never edit by hand.
 - `gen-dunes.mjs` — generates `hooks/scene.ts` plus PNG previews: `node gen-dunes.mjs <preview.png> hooks/scene.ts`.
